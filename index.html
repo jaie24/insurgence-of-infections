@@ -27,7 +27,7 @@
     <div class="background-container">
       <div class="left-sidebar-container">
         <div class="menu-text-container">
-          <h3 class="menu-text"><u>Menu</u></h3>
+          <p class="menu-text">MENU</p>
         </div>
         <div class="buttons-container">
           <section class="buttons">
@@ -46,8 +46,20 @@
         </div>
       </div>
       <div class="game-container">
-        <div class="round-information-container">
-          <p class="round-information">Round 1</p>
+        <div class="player-information-container">
+          <div class="player-health-container">
+            <img
+              class="health"
+              src="assets/lifeline.png"
+              alt="image-of-heart"
+            />
+          </div>
+          <div class="player-timer-container">
+            <img src="" alt="image-of-timer" />
+          </div>
+          <div class="player-score-container">
+            <img src="" alt="image-of-scoreboard" />
+          </div>
         </div>
         <div class="background-image-container">
           <img
@@ -55,35 +67,26 @@
             src="assets/immune-system.jpeg"
             alt="background-image"
           />
-          <div class="player-information-container">
-            <div class="player-health-container">
-              <p>Health</p>
-              <img
-                class="health"
-                src="assets/lifeline.png"
-                alt="image-of-heart"
-              />
-            </div>
-            <div class="player-timer-container">
-              <p>Timer</p>
-              <img src="" alt="image-of-timer" />
-            </div>
-            <div class="player-score-container">
-              <p>Score</p>
-              <img src="" alt="image-of-scoreboard" />
-            </div>
-          </div>
-          <div class="upgrades-container">
-            <div class="antibiotics-title-container">
-              <p class="antibiotics-remaining">Upgrades Remaining:</p>
-            </div>
+          <div class="bottom-container">
             <div class="antibiotics-container">
-              <button class="antibiotics-button">
-                <img
-                  class="antibiotics"
-                  src="assets/treatment.png"
-                  alt="images-of-antibiotic"
-                />
+              <div class="antibiotics-title-container">
+                <p class="antibiotics-remaining">Upgrades Remaining:</p>
+              </div>
+              <div class="antibiotics-button-container">
+                <button class="antibiotics-button">
+                  <img
+                    class="antibiotics"
+                    src="assets/treatment.png"
+                    alt="images-of-antibiotic"
+                  />
+                </button>
+              </div>
+            </div>
+            <div class="pause-button-container">
+              <button class="pause-button">
+                <!-- <a href="https://www.flaticon.com/free-icons/pause-button" title="Pause button icons created by Freepik - Flaticon"> -->
+                  <img class = "pause"src="assets/pause-button.png" alt="Pause Button" />
+                </a>                
               </button>
             </div>
           </div>
@@ -94,7 +97,7 @@
         <div class="virus-shots-container"></div>
       </div>
       <div class="left-sidebar-container">
-        <div class="disease-title-container">Disease:</div>
+        <div class="disease-title-container">INFORMATION ABOUT THIS DISEASE:</div>
         <div class="disease-information-container"></div>
       </div>
     </div>
