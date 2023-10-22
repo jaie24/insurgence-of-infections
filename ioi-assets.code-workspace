@@ -1,0 +1,15 @@
+{
+  "folders": [
+	{
+		"name": "ioi-assets",
+		"path": "../../../Downloads/ioi-assets"
+	},
+	{
+		"name": "insurgence-of-infections",
+		"path": "."
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "insurgence-of-infections"
+  }
+}
