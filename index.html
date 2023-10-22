@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insurgence of Infections</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&family=Playfair:ital,opsz,wght@0,5..1200,300;0,5..1200,400;0,5..1200,500;0,5..1200,600;0,5..1200,700;0,5..1200,800;0,5..1200,900;1,5..1200,300;1,5..1200,400;1,5..1200,500;1,5..1200,600;1,5..1200,700;1,5..1200,800;1,5..1200,900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <!-- CONTAINER FOR HEADER-->
+    <div class="header-container">
+      <div class="title-container">
+        <h1 class="game-title">Insurgence of Infections</h1>
+      </div>
+    </div>
+    <!-- <canvas id="canvas"></canvas> -->
+    <!-- CONTAINER FOR THE GAME BACKGROUND-->
+
+    <div class="background-container">
+      <div class="left-sidebar-container">
+        <div class="menu-text-container">
+          <h3 class="menu-text"><u>Menu</u></h3>
+        </div>
+        <div class="buttons-container">
+          <section class="buttons">
+            <div class="start-button-container">
+              <button class="start-button">START</button>
+            </div>
+
+            <div class="settings-button-container">
+              <button class="settings-button">SETTINGS</button>
+            </div>
+
+            <div class="help-button-container">
+              <button class="help-button">HELP</button>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="game-container">
+        <div class="round-information-container">
+          <p class="round-information">Round 1</p>
+        </div>
+        <div class="background-image-container">
+          <img
+            class="background-image"
+            src="assets/immune-system.jpeg"
+            alt="background-image"
+          />
+          <div class="player-information-container">
+            <div class="player-health-container">
+              <p>Health</p>
+              <img
+                class="health"
+                src="assets/lifeline.png"
+                alt="image-of-heart"
+              />
+            </div>
+            <div class="player-timer-container">
+              <p>Timer</p>
+              <img src="" alt="image-of-timer" />
+            </div>
+            <div class="player-score-container">
+              <p>Score</p>
+              <img src="" alt="image-of-scoreboard" />
+            </div>
+          </div>
+          <div class="upgrades-container">
+            <p class="antibiotics-remaining">Upgrades Remaining:</p>
+            <div class="antibiotics-container">
+              <img
+                class="antibiotics"
+                src="assets/treatment.png"
+                alt="images-of-antibiotic"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="player-container"></div>
+        <div class="cell-container"></div>
+        <div class="virus-container"></div>
+        <div class="virus-shots-container"></div>
+      </div>
+      <div class="left-sidebar-container">
+        <div class="disease-title-container">Disease:</div>
+        <div class="disease-information-container"></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<!-- ADD CELLS , ADD GOOD BACTERIA ADJUST TO SCREEN, ADD BAD BACTERIA, ADD TIMER, ADD CONTAINER FOR 3 DIALOGS , ADD START, ADD TIMER-->
