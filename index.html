@@ -12,7 +12,6 @@
       href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&family=Playfair:ital,opsz,wght@0,5..1200,300;0,5..1200,400;0,5..1200,500;0,5..1200,600;0,5..1200,700;0,5..1200,800;0,5..1200,900;1,5..1200,300;1,5..1200,400;1,5..1200,500;1,5..1200,600;1,5..1200,700;1,5..1200,800;1,5..1200,900&display=swap"
       rel="stylesheet"
     />
-    <script src="index.js"></script>
   </head>
   <body>
     <!-- CONTAINER FOR HEADER-->
@@ -53,15 +52,25 @@
               src="assets/lifeline.png"
               alt="image-of-heart"
             />
+            <img
+              class="health"
+              src="assets/lifeline.png"
+              alt="image-of-heart"
+            />
+            <img
+              class="health"
+              src="assets/lifeline.png"
+              alt="image-of-heart"
+            />
           </div>
           <div class="player-timer-container">
-            <img src="" alt="image-of-timer" />
+            <p class="timer"><strong>0:00</strong></p>
           </div>
           <div class="player-score-container">
-            <img src="" alt="image-of-scoreboard" />
+            <p class="score"><strong>Score:</strong></p>
           </div>
         </div>
-        <div class="background-image-container">
+        <div id="game-background"class="game-wrapper">
           <img
             class="background-image"
             src="assets/immune-system.jpeg"
@@ -73,6 +82,20 @@
                 <p class="antibiotics-remaining">Upgrades Remaining:</p>
               </div>
               <div class="antibiotics-button-container">
+                <button class="antibiotics-button">
+                  <img
+                    class="antibiotics"
+                    src="assets/treatment.png"
+                    alt="images-of-antibiotic"
+                  />
+                </button>
+                <button class="antibiotics-button">
+                  <img
+                    class="antibiotics"
+                    src="assets/treatment.png"
+                    alt="images-of-antibiotic"
+                  />
+                </button>
                 <button class="antibiotics-button">
                   <img
                     class="antibiotics"
@@ -96,12 +119,18 @@
         <div class="virus-container"></div>
         <div class="virus-shots-container"></div>
       </div>
-      <div class="left-sidebar-container">
+      <div class="right-sidebar-container">
         <div class="disease-title-container">INFORMATION ABOUT THIS DISEASE:</div>
-        <div class="disease-information-container"></div>
+        <div class="disease-information-container">
+          <p class="disease-information-text">Malaria is a disease caused by a parasite. Mosquitoes spread the parasite to people when they bite them. Symptoms may include high fevers and shaking chills, flu-like illness.</p>
+        </div>
       </div>
     </div>
+    <script src="index.js"></script>
   </body>
 </html>
 
 <!-- ADD CELLS , ADD GOOD BACTERIA ADJUST TO SCREEN, ADD BAD BACTERIA, ADD TIMER, ADD CONTAINER FOR 3 DIALOGS , ADD START, ADD TIMER-->
+<!-- ADD A WHITE BORDER AROUND PLAYER INFORMATION CONTAINER-->
+<!-- GAME ASPECTS TO IMPROVE WHOLE LAYOUT FOR THE GAME CONTAINER -> EITHER FIXED, OR ACCORDING TO 60% OF WIDTH OF SCREEN-->
+<!-- FOR HELP, ADD DIVIDER (DISPLAY NONE FIRST) THAT GIVES INFO ON HOW TO PLAY GAME-->

@@ -91,7 +91,7 @@ button {
   height: auto;
 }
 
-.background-image-container {
+.game-wrapper {
   position: relative;
 }
 .play-button {
@@ -138,6 +138,7 @@ button {
 
 .health {
   width: 40px;
+  margin-left: 15px;
 }
 .right-sidebar-container {
   padding-top: 30px;
@@ -157,7 +158,6 @@ button {
 .player-health-container {
   display: flex;
   justify-content: flex-start;
-  margin-left: 15px;
 }
 .bottom-container {
   position: absolute;
@@ -177,6 +177,7 @@ button {
   display: grid;
   justify-content: center;
   align-items: center;
+  padding: 0;
 }
 .antibiotics {
   width: 30px;
@@ -212,11 +213,25 @@ button {
   justify-content: center;
   align-items: center;
   margin-left: 25px;
-  margin-top: 25px;
   color: antiquewhite;
 }
 
 .disease-information-container {
   margin-left: 25px;
+  margin-top: 15px;
   color: antiquewhite;
+  border: 3px solid white;
+  padding: 20px;
+}
+
+.disease-information-text {
+  font-size: small;
+}
+
+.right-sidebar-container {
+  width: 10%;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  margin-right: 30px;
 }
