@@ -83,7 +83,8 @@ button {
   padding-right: 15px;
 }
 .game-container{
-  width: 80%;
+  width: 800px;
+  height: 600px;
   flex: 1;
 }
 .background-image {
