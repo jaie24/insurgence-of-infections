@@ -14,6 +14,11 @@ button {
   font-weight: bold;
   font-size: medium;
 }
+
+.main-container {
+  background-color: black;
+  height: 100vh;
+}
 .header-container {
   margin-top: 0px;
   height: 80px;
@@ -22,7 +27,6 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 15px antiquewhite;
 }
 
 .game-title {
@@ -37,7 +41,8 @@ button {
 .background-container {
   display: flex;
   background-color: black;
-  height: 100vh;
+  width: 1280;
+  height: 720;
 }
 .left-sidebar-container {
   width: 10%;
@@ -47,7 +52,6 @@ button {
 }
 
 .menu-text-container {
-  margin-top: 25px;
   height: 9%;
   display: flex;
   justify-content: center;
@@ -60,6 +64,7 @@ button {
 }
 
 .buttons-container {
+  height: 80%;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -83,8 +88,8 @@ button {
   padding-right: 15px;
 }
 .game-container{
-  width: 800px;
-  height: 600px;
+  width: 80%;
+  height: auto;
   flex: 1;
 }
 .background-image {
@@ -126,7 +131,7 @@ button {
 }
 
 .player-information-container {
-  background-color: maroon;
+  position: absolute;
   color: antiquewhite;
   display: flex;
   flex-wrap: wrap;
@@ -140,6 +145,10 @@ button {
 .health {
   width: 40px;
   margin-left: 15px;
+}
+
+.timer, .score {
+  font-size: large;
 }
 .right-sidebar-container {
   padding-top: 30px;
@@ -164,19 +173,23 @@ button {
   position: absolute;
   bottom: 0;
   width: 100%;
+  height:50px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+
+
 .antibiotics-remaining {
   color: white;
-  margin: 0px;
+  margin-left: 20px;
 }
 .antibiotics-container {
   width: 25%;
   display: grid;
-  justify-content: center;
+  margin-left: 25px;
   align-items: center;
   padding: 0;
 }
@@ -187,7 +200,6 @@ button {
 .antibiotics-button {
   background: none;
   border: none;
-  padding: 20px;
   cursor: pointer;
 }
 
@@ -218,15 +230,15 @@ button {
 }
 
 .disease-information-container {
-  margin-left: 25px;
+  margin-left: 15px;
   margin-top: 15px;
   color: antiquewhite;
   border: 3px solid white;
-  padding: 20px;
+  padding: 10px;
 }
 
 .disease-information-text {
-  font-size: small;
+  font-size: medium;
 }
 
 .right-sidebar-container {
@@ -234,5 +246,100 @@ button {
   background-color: black;
   display: flex;
   flex-direction: column;
-  margin-right: 30px;
+  padding-right: 30px;
+}
+
+@media only screen and (max-width: 1000px){
+  .disease-information-container {
+    display: none;
+  }
+
+  .disease-title-container {
+    display: none ;
+  }
+}
+
+.player-container {
+  width: 250px;
+  position: absolute;
+  bottom: 35px;
+  z-index: 2;
+}
+.player-icon {
+  margin-left: 80px;
+  width: 150px;
+}
+
+.big-boss-container {
+  width: 250px;
+  position: absolute;
+  bottom: 35px;
+  right: 8px;
+  z-index: 2;
+}
+.enemy-icon {
+  width: 150px;
+}
+
+.wbc-container {
+  width: 50px;
+  position: absolute;
+  bottom: 50px;
+  z-index: 2;
+  margin-left:250px;
+}
+
+.basophil-icon {
+  width: 50px;
+}
+
+.wbc2-container {
+  width: 50px;
+  position: absolute;
+  bottom: 50px;
+  z-index: 2;
+  margin-left:300px;
+}
+
+.neutrophil-icon {
+  width: 50px;
+}
+
+.virus-container {
+  width: 50px;
+  position: absolute;
+  bottom: 70px;
+  right: 250px;
+  z-index: 2;
+  margin-left:250px;
+}
+
+.virus-icon {
+  width: 50px;
+}
+
+.rbc-container {
+  width: 50px;
+  z-index: 2;
+  margin-left:80px;
+  position: absolute;
+  top: 20px;
+  left:50px;
+  animation: fall 5s linear infinite;
+}
+
+.rbc-icon {
+  width: 50px;
+  position: relative;
+}
+
+@keyframes fall {
+  0% {
+    top: 0;
+  
+  }
+  
+  100% {
+    top: calc(100% - 50px);
+  }
 }

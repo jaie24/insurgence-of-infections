@@ -14,7 +14,8 @@
     />
   </head>
   <body>
-    <!-- CONTAINER FOR HEADER-->
+    <div class="main-container">
+      <!-- CONTAINER FOR HEADER-->
     <div class="header-container">
       <div class="title-container">
         <h1 class="game-title">Insurgence of Infections</h1>
@@ -45,43 +46,58 @@
         </div>
       </div>
       <div class="game-container">
-        <div class="player-information-container">
-          <div class="player-health-container">
-            <img
-              class="health"
-              src="assets/lifeline.png"
-              alt="image-of-heart"
-            />
-            <img
-              class="health"
-              src="assets/lifeline.png"
-              alt="image-of-heart"
-            />
-            <img
-              class="health"
-              src="assets/lifeline.png"
-              alt="image-of-heart"
-            />
-          </div>
-          <div class="player-timer-container">
-            <p class="timer"><strong>0:00</strong></p>
-          </div>
-          <div class="player-score-container">
-            <p class="score"><strong>Score:</strong></p>
-          </div>
-        </div>
         <div id="game-background"class="game-wrapper">
           <img
             class="background-image"
             src="assets/immune-system.jpeg"
             alt="background-image"
           />
-          <div class="player-container"></div>
+          <div class="player-information-container">
+            <div class="player-health-container">
+              <img
+                class="health"
+                src="assets/lifeline.png"
+                alt="image-of-heart"
+              />
+              <img
+                class="health"
+                src="assets/lifeline.png"
+                alt="image-of-heart"
+              />
+              <img
+                class="health"
+                src="assets/lifeline.png"
+                alt="image-of-heart"
+              />
+            </div>
+            <div class="player-timer-container">
+              <p class="timer"><strong>0:00</strong></p>
+            </div>
+            <div class="player-score-container">
+              <p class="score"><strong>Score:</strong></p>
+            </div>
+          </div>
+          <div class="player-container">
+            <img class="player-icon" src="assets/wbc-master.png" alt="player-image">
+          </div>
+          <div class="rbc-container">
+            <img class="rbc-icon" src="assets/rbc.png" alt="red-blood-cells">
+          </div>
+          <div class="wbc-container">
+            <img class="basophil-icon"src="assets/basophil.png" alt="basophil-cells-icon">
+          </div>
+          <div class="wbc2-container">
+            <img class="neutrophil-icon"src="assets/neutrophil.png" alt="neutrophil-cells-icon">
+          </div>
+          <div class="virus-container">
+            <img class="virus-icon"src="assets/small-virus.png" alt="virus-icon">
+          </div>
+          <div class="big-boss-container">
+            <img class="enemy-icon" src="assets/blue-demon.png" alt="blue-big-boss-image">
+          </div>
+        
           <div class="bottom-container">
             <div class="antibiotics-container">
-              <div class="antibiotics-title-container">
-                <p class="antibiotics-remaining">Upgrades Remaining:</p>
-              </div>
               <div class="antibiotics-button-container">
                 <button class="antibiotics-button">
                   <img
@@ -115,9 +131,6 @@
             </div>
           </div>
         </div>
-        <div class="cell-container"></div>
-        <div class="virus-container"></div>
-        <div class="virus-shots-container"></div>
       </div>
       <div class="right-sidebar-container">
         <div class="disease-title-container">INFORMATION ABOUT THIS DISEASE:</div>
@@ -134,3 +147,5 @@
 <!-- ADD A WHITE BORDER AROUND PLAYER INFORMATION CONTAINER-->
 <!-- GAME ASPECTS TO IMPROVE WHOLE LAYOUT FOR THE GAME CONTAINER -> EITHER FIXED, OR ACCORDING TO 60% OF WIDTH OF SCREEN-->
 <!-- FOR HELP, ADD DIVIDER (DISPLAY NONE FIRST) THAT GIVES INFO ON HOW TO PLAY GAME-->
+    </div>
+    
