@@ -80,7 +80,7 @@ button {
 .start-button {
   margin-top: 50px;
 }
-.start-button, .settings-button, .help-button {
+.start-button, .help-button {
   cursor: pointer;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -160,14 +160,16 @@ button {
   height: auto;
 }
 
-.player-health-container, .player-timer-container, .player-score-container {
-  flex: 1;
-  text-align: center;
-}
 
 .player-health-container {
   display: flex;
   justify-content: flex-start;
+}
+
+.player-score-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 100px;
 }
 .bottom-container {
   position: absolute;
@@ -187,6 +189,7 @@ button {
   margin-left: 20px;
 }
 .antibiotics-container {
+  z-index: 2;
   width: 25%;
   display: grid;
   margin-left: 25px;
@@ -203,22 +206,6 @@ button {
   cursor: pointer;
 }
 
-.pause-button-container {
-  width: 25%;
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 3%;
-}
-.pause-button {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.pause {
-  width: 30px;
-}
 
 .disease-title-container {
   height: 9%;
@@ -320,7 +307,7 @@ button {
 
 .rbc-container {
   width: 50px;
-  z-index: 2;
+  z-index: 1;
   margin-left:80px;
   position: absolute;
   top: 20px;
@@ -331,6 +318,7 @@ button {
 .rbc-icon {
   width: 50px;
   position: relative;
+  display: none;
 }
 
 @keyframes fall {
@@ -342,4 +330,20 @@ button {
   100% {
     top: calc(100% - 50px);
   }
+}
+
+.help-container {
+  display: none;
+}
+
+.disease-start-title {
+  width: 350px;
+  height: 80px;
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: none;
 }
