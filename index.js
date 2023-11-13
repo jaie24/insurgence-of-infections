@@ -7,6 +7,7 @@
 // THINGS TO FIX : 
 // ENEMY MOVING RANDOMLY
 // CHANGE BOUNDARY FOR LOWER PART OF PLAYER
+// FIX MOVEMENT FOR CELLS AND MAKE IT RESPONSIVE
 
 let health = 3;
 let score = document.querySelector('.score'); // difference between health and score is health is how much youve got shot, then score is how many times youve shoot the virus
@@ -48,7 +49,8 @@ const PLAYER_STATE = {
     gameOver : false,
     wbc_state : false,
     virus_state : false,
-    player_width : 150
+    player_width : 150,
+    timestamp : 0 // "TIMESTAMP SO CELLS DO NOT STICK TOGETHER"
 }
 
 const ENEMY_STATE = {
@@ -164,14 +166,20 @@ function updatePlayer() {
     if (PLAYER_STATE.down === true) {
         PLAYER_STATE.y_position += 2;
     } 
-    // CHECK IF PLAYER IS SHOOTING CELLS
-    if (PLAYER_STATE.shoot === true){
-         
-        buildImmunity($container, PLAYER_STATE.x_position, PLAYER_STATE.y_position);
+    // CHECK IF PLAYER IS SHOOTING CELLS, THEN CELLS WILL COME OUT OF THE PLAYER
+    if (PLAYER_STATE.shoot === true &PLAYER_STATE.timestamp === 0){
+         buildImmunity($container, PLAYER_STATE.x_position, PLAYER_STATE.y_position);
+         PLAYER_STATE.timestamp = 30;
     }
 
     const $player = document.querySelector(".player");
     setElementPosition($player, PLAYER_STATE.x_position, limit(PLAYER_STATE.y_position));
+    
+    // CHECK THE "TIMESTAMP COUNTER"
+    // NOTE THAT IS WAS QUITE A CHALLENGE, OUTLINE IT IN THE REFLECTION LATER AND CITE SOURCES
+    if (PLAYER_STATE.timestamp > 0){
+        PLAYER_STATE.timestamp -= 1;
+    }
 }
 
 // BASIC METHOD TO BUILD WHITE BLOOD CELLS
@@ -192,7 +200,8 @@ function buildImmunity($container, x, y ) {
 
     // now append each white blood cell (wb cell) to the list created in the beginning
     $container.appendChild($wbcell);
-    const wbcell = {$wbcell, x, y};
+    const wbcell_xpos = x - 130;
+    const wbcell = {$wbcell, x : wbcell_xpos, y};
     // REMEMBER TO ADD WHAT YOU VISUALIZE ITS DOING HERE
     PLAYER_STATE.cells.push(wbcell);
     
@@ -215,12 +224,22 @@ function updateImmunity($container) {
     const cells = PLAYER_STATE.cells;
     for (let i = 0; i < cells.length; i++){
         const cell = cells[i];
-        cell.x += 4;
+        cell.x += 3;
 
+        // Check if the cell is outside the game container
+        // RECHECK (MAKE DELETION OF CELLS RESPONSIVE LATER)
+        if (cell.x > WIDTH-40) {
+            // Remove the cell from the array
+            cells.splice(i, 1);
+
+            // Remove the cell element from the DOM
+            GAME_CONTAINER.removeChild(cell.$wbcell);
+        }
         setElementPosition(cell.$wbcell, cell.x, cell.y);
-
     }
 }
+
+
 
 // --------------- ENEMY -------------- 
 function createEnemy($container) {
@@ -242,15 +261,18 @@ function createEnemy($container) {
     // Call createEnemy with the game container    
 }
 
-// function updateEnemy() {
-//     if (PLAYER_STATE.up === true) {
-//         ENEMY_STATE.y_position += 2;
-//     } else if (PLAYER_STATE.down === true) {
-//         ENEMY_STATE.y_position -= 2;
-//     }
-//     const $enemy = document.querySelector(".enemy");
-//     setElementPosition($enemy, ENEMY_STATE.x_position, ENEMY_STATE.y_position);
-// }
+function updateEnemy() {
+    if (PLAYER_STATE.up === true) {
+        ENEMY_STATE.y_position -= 2;
+    }
+    if (PLAYER_STATE.down === true) {
+        ENEMY_STATE.y_position += 2;
+    } 
+   
+    const $enemy = document.querySelector(".enemy");
+    setElementPosition($enemy, ENEMY_STATE.x_position, limit(ENEMY_STATE.y_position));
+}
+
 
 // BASIC METHOD TO BUILD VIRUS CELLS
 function buildVirus() {
@@ -323,6 +345,7 @@ function gameOver() {
 // updating the game 
 function updateGame() {
     updatePlayer();
+    updateEnemy();
     updateImmunity($container);
     window.requestAnimationFrame(updateGame);
 }
