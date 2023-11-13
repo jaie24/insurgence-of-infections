@@ -88,17 +88,22 @@ button {
   padding-right: 15px;
 }
 .game-container{
-  width: 80%;
-  height: auto;
+  width : 800px;
+  height: 600px;
   flex: 1;
+  background-color: antiquewhite;
+  background: url(assets/immune-system.jpeg);
 }
-.background-image {
+/* .background-image {
   width: 100%;
   height: auto;
-}
+} */
 
 .game-wrapper {
-  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .play-button {
   background-color: black;
