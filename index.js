@@ -5,8 +5,8 @@
 /* UCID: 30142476 */
 
 // THINGS TO FIX : 
-// PLAYER MOVING DOWN
 // ENEMY MOVING RANDOMLY
+// CHANGE BOUNDARY FOR LOWER PART OF PLAYER
 
 let health = 3;
 let score = document.querySelector('.score'); // difference between health and score is health is how much youve got shot, then score is how many times youve shoot the virus
@@ -27,8 +27,8 @@ const KEY_PAUSE = 80; // TO BE CHANGED
 
 
 // constants for game container 
-const GAME_WIDTH = 800;
-const GAME_HEIGHT = 600;
+const WIDTH = 800;
+const HEIGHT = 600;
 // constants for game mechanics 
 const base_score = 30;
 
@@ -55,6 +55,10 @@ const ENEMY_STATE = {
     x_position : 0,
     y_position : 0,
     enemy_width : 150
+}
+
+const CELL_STATE = {
+    cell_width : 50
 }
 // METHOD FOR SCORE
 function set_score (collision) {
@@ -93,12 +97,15 @@ function falling_rbc() {
         // appendChild the red blood cell (RBC) icon to the game container
 }
 //test commit here
+
 // DECLARE EVENTS FOR WHEN KEY IS BEING PRESSED
 function onKey(event) {
     if(event.code === "ArrowUp") {
         PLAYER_STATE.up = true;
+        console.log("right key is pressed");
     } else if (event.code === "ArrowDown") {
         PLAYER_STATE.down = true;
+        console.log("left key is pressed");
     } else if (event.code === "Space") {
         PLAYER_STATE.shoot = true;
     } else if (event.code === "KeyP") {
@@ -120,7 +127,7 @@ function offKey(event) {
 }
 
 
-// 
+// SETTING UP BASIC FUNCTIONS FOR POSITION AND SIZE OF THE ELEMENTS
 function setElementPosition($element, x, y){
     $element.style.transform = `translate(${x}px, ${y}px)`;
 }
@@ -132,8 +139,8 @@ function setElementSize($element, width){
 //  ------------------ PLAYER -----------------
 
 function createPlayer($container) {
-    PLAYER_STATE.x_position = GAME_WIDTH / 10;
-    PLAYER_STATE.y_position = GAME_HEIGHT - 250;
+    PLAYER_STATE.x_position = WIDTH / 10;
+    PLAYER_STATE.y_position = HEIGHT - 250;
     const $player = document.createElement("img");
     $player.src = "assets/wbc-master.png"; // Corrected the file extension
     $player.className = "player";
@@ -150,30 +157,69 @@ function updatePlayer() {
     // IF UP IS TRUE, PLAYER MOVES UP, IF DOWN IS TRUE, PLAYER MOVES DOWN
     // REPOSITION PLAYER ICON IN THE GAME CONTAINER BY REPOSITIONING THE MARGIN AND ADDING PX TO IT
     // IF PLAYER PRESSES KEY TO GO UP, THE Y POSITION
+    // CHECK MOVEMENT OF PLAYER
     if (PLAYER_STATE.up === true) {
         PLAYER_STATE.y_position -= 2;
-    } else if (PLAYER_STATE.down === true) {
-        PLAYER_STATE.y_position += 2;
     }
+    if (PLAYER_STATE.down === true) {
+        PLAYER_STATE.y_position += 2;
+    } 
+    // CHECK IF PLAYER IS SHOOTING CELLS
+    if (PLAYER_STATE.shoot === true){
+         
+        buildImmunity($container, PLAYER_STATE.x_position, PLAYER_STATE.y_position);
+    }
+
     const $player = document.querySelector(".player");
-    setElementPosition($player, PLAYER_STATE.x_position, PLAYER_STATE.y_position);
+    setElementPosition($player, PLAYER_STATE.x_position, limit(PLAYER_STATE.y_position));
 }
 
 // BASIC METHOD TO BUILD WHITE BLOOD CELLS
-function buildImmunity() {
+/**
+ * @param container : container of where white blood cells will be shown on screen
+ * @param x : x-coordinate of white blood cell
+ * @param y : y-coordinate of white blood cell
+ */
+function buildImmunity($container, x, y ) {
     // create white blood cells based by creating elemt
     // declare src and class name of the white blood cells (already exists in css for part1 ,but will update in part 2)
     // append white blood cells to the game container 
     // set position for white blood cells
+    // code implementation will be similar to createplayer method
+    const $wbcell = document.createElement("img");
+    $wbcell.src = "assets/neutrophil.png"; 
+    $wbcell.className = "wbcell";  
 
+    // now append each white blood cell (wb cell) to the list created in the beginning
+    $container.appendChild($wbcell);
+    const wbcell = {$wbcell, x, y};
+    // REMEMBER TO ADD WHAT YOU VISUALIZE ITS DOING HERE
+    PLAYER_STATE.cells.push(wbcell);
+    
+    setElementPosition($wbcell, x, y);
+    setElementSize($wbcell, CELL_STATE.cell_width);
+    // setElementSize($player, PLAYER_STATE.player_width);
+    
 }
 
 // BASIC METHOD TO UPDATE THE WHITE BLOOD CELLS BEING SHOT FROM THE PLAYER
-function updateImmunity() {
+function updateImmunity($container) {
     // create immunity bullets based on the state of the enemy
     // for loop and increment i 
     // set position of updated immunity bullets (following where the player moves)
     // if collision() is true, delete the wbite blood cell (container.removeChild)
+    // create immunity bullets based on the state of the enemy
+    // for loop and increment i 
+    // set position of updated immunity bullets (following where the player moves)
+    // if collision() is true, delete the wbite blood cell (container.removeChild)
+    const cells = PLAYER_STATE.cells;
+    for (let i = 0; i < cells.length; i++){
+        const cell = cells[i];
+        cell.x += 4;
+
+        setElementPosition(cell.$wbcell, cell.x, cell.y);
+
+    }
 }
 
 // --------------- ENEMY -------------- 
@@ -184,8 +230,8 @@ function createEnemy($container) {
     $enemy.className = "enemy";
     
     // Adjust the initial position of the enemy
-    const enemyX = GAME_WIDTH - 100; // Adjust the initial X-position as needed
-    const enemyY = GAME_HEIGHT - 230; // Adjust the initial Y-position as needed
+    const enemyX = WIDTH - 100; // Adjust the initial X-position as needed
+    const enemyY = HEIGHT - 230; // Adjust the initial Y-position as needed
     
     setElementPosition($enemy, enemyX, enemyY);
     setElementSize($enemy, ENEMY_STATE.enemy_width); // Use the player_width or adjust it if needed
@@ -244,6 +290,20 @@ function updateEnemy() {
     // enemy should move up and down 50 px from top and bottom of the game container
 }
 
+function limit(y){
+    if (y >= WIDTH - PLAYER_STATE.player_width){
+        PLAYER_STATE.y_position = WIDTH - PLAYER_STATE.player_width;
+        return PLAYER_STATE.y_position;
+    } if (y <= 0){
+        PLAYER_STATE.y_position = 0;
+        return PLAYER_STATE.y_position;
+    } else {
+        // if between game window
+        return y;
+    }
+
+    // Ensure the player stays within the top and bottom bounds
+}
 function gameOver() {
     // if health is 0 , game is over, 
 }
@@ -263,13 +323,15 @@ function gameOver() {
 // updating the game 
 function updateGame() {
     updatePlayer();
+    updateImmunity($container);
     window.requestAnimationFrame(updateGame);
 }
 // -------- INITIALIZATION OF THE GAME HERE ---------
-createPlayer(GAME_CONTAINER);
-createEnemy(GAME_CONTAINER);
+const $container = document.querySelector(".game-container")
+createPlayer($container);
+createEnemy($container);
 
-window.addEventListener("keyup", onKey);
-window.addEventListener("keydown", offKey);
+window.addEventListener("keydown", onKey);
+window.addEventListener("keyup", offKey);
 
 updateGame();
