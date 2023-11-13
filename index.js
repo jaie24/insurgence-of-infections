@@ -4,6 +4,10 @@
 /* Name: Jiayi Teh */
 /* UCID: 30142476 */
 
+// THINGS TO FIX : 
+// PLAYER MOVING DOWN
+// ENEMY MOVING RANDOMLY
+
 let health = 3;
 let score = document.querySelector('.score'); // difference between health and score is health is how much youve got shot, then score is how many times youve shoot the virus
 let timer = document.querySelector('.timer'); 
@@ -47,50 +51,11 @@ const PLAYER_STATE = {
     player_width : 150
 }
 
-
-// VISUAL ELEMENTS USING JAVASCRIPT : FALLING RED BLOOD CELLS
-// METHOD FOR FALLING RED BLOOD CELLS (VISUAL ELEMENT)
-function falling_rbc() {
-    // initialize x to be number of rbc icons to append
-    const x = 0;
-    // display for rbc icon becomes visible
-    // loop to create and append rbc icons
-        // createElement of image
-        // add class name of RBC
-        // set image source
-        // for each iteration, increase the margin of each red blood cell
-        // calculate margin, and increase margin by 30px for each red blood cell icon
-        // appendChild the red blood cell (RBC) icon to the game container
+const ENEMY_STATE = {
+    x_position : 0,
+    y_position : 0,
+    enemy_width : 150
 }
-//test commit here
-// DECLARE EVENTS FOR WHEN KEY IS BEING PRESSED
-function onKey(event) {
-    if(event.keyCode === KEY_UP) {
-        PLAYER_STATE.up = true;
-        movePlayer();
-    } else if (event.keyCode === KEY_DOWN) {
-        PLAYER_STATE.down = true;
-        movePlayer();
-    } else if (event.keyCode === KEY_SHOOT) {
-        PLAYER_STATE.shoot = true;
-    } else if (event.keyCode === KEY_PAUSE) {
-        PLAYER_STATE.pause = true;
-    } 
-}
-
-// DECLARE EVENTS FOR WHEN KEY IS LET GO 
-function offKey(event) {
-    if(event.keyCode === KEY_UP) {
-        PLAYER_STATE.up = false;
-    } else if (event.keyCode === KEY_DOWN) {
-        PLAYER_STATE.down = false;
-    } else if (event.keyCode === KEY_SHOOT) {
-        PLAYER_STATE.shoot = false;
-    } else if (event.keyCode === KEY_PAUSE) {
-        PLAYER_STATE.pause = false;
-    } 
-}
-
 // METHOD FOR SCORE
 function set_score (collision) {
     // set initial score to be 0 from variable above
@@ -112,6 +77,48 @@ function set_treatment () {
     // add event listener for when antibiotics-button class is clicked
     // if it is clicked, treatmentBoolean is true, 
 }
+
+// VISUAL ELEMENTS USING JAVASCRIPT : FALLING RED BLOOD CELLS
+// METHOD FOR FALLING RED BLOOD CELLS (VISUAL ELEMENT)
+function falling_rbc() {
+    // initialize x to be number of rbc icons to append
+    const x = 0;
+    // display for rbc icon becomes visible
+    // loop to create and append rbc icons
+        // createElement of image
+        // add class name of RBC
+        // set image source
+        // for each iteration, increase the margin of each red blood cell
+        // calculate margin, and increase margin by 30px for each red blood cell icon
+        // appendChild the red blood cell (RBC) icon to the game container
+}
+//test commit here
+// DECLARE EVENTS FOR WHEN KEY IS BEING PRESSED
+function onKey(event) {
+    if(event.code === "ArrowUp") {
+        PLAYER_STATE.up = true;
+    } else if (event.code === "ArrowDown") {
+        PLAYER_STATE.down = true;
+    } else if (event.code === "Space") {
+        PLAYER_STATE.shoot = true;
+    } else if (event.code === "KeyP") {
+        PLAYER_STATE.pause = true;
+    } 
+}
+
+// DECLARE EVENTS FOR WHEN KEY IS LET GO 
+function offKey(event) {
+    if(event.keyCode === KEY_UP) {
+        PLAYER_STATE.up = false;
+    } else if (event.keyCode === KEY_DOWN) {
+        PLAYER_STATE.down = false;
+    } else if (event.keyCode === KEY_SHOOT) {
+        PLAYER_STATE.shoot = false;
+    } else if (event.keyCode === KEY_PAUSE) {
+        PLAYER_STATE.pause = false;
+    } 
+}
+
 
 // 
 function setElementPosition($element, x, y){
@@ -181,16 +188,24 @@ function createEnemy($container) {
     const enemyY = GAME_HEIGHT - 230; // Adjust the initial Y-position as needed
     
     setElementPosition($enemy, enemyX, enemyY);
-    setElementSize($enemy, PLAYER_STATE.player_width); // Use the player_width or adjust it if needed
+    setElementSize($enemy, ENEMY_STATE.enemy_width); // Use the player_width or adjust it if needed
     
     // Append the enemy to the game container
     $container.appendChild($enemy);
-    
-    
     // ...
-    
     // Call createEnemy with the game container    
 }
+
+// function updateEnemy() {
+//     if (PLAYER_STATE.up === true) {
+//         ENEMY_STATE.y_position += 2;
+//     } else if (PLAYER_STATE.down === true) {
+//         ENEMY_STATE.y_position -= 2;
+//     }
+//     const $enemy = document.querySelector(".enemy");
+//     setElementPosition($enemy, ENEMY_STATE.x_position, ENEMY_STATE.y_position);
+// }
+
 // BASIC METHOD TO BUILD VIRUS CELLS
 function buildVirus() {
     // create enemy virus based by creating elemt
@@ -248,7 +263,6 @@ function gameOver() {
 // updating the game 
 function updateGame() {
     updatePlayer();
-
     window.requestAnimationFrame(updateGame);
 }
 // -------- INITIALIZATION OF THE GAME HERE ---------
