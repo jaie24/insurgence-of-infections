@@ -93,6 +93,7 @@ button {
   flex: 1;
   background-color: antiquewhite;
   background: url(assets/immune-system.jpeg);
+  position: relative;
 }
 /* .background-image {
   width: 100%;

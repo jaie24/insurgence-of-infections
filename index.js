@@ -17,10 +17,14 @@ const startButton = document.getElementsByClassName('.start-button-container')
 // declare all costants for keyboard event values
 // constants for movement
 const KEY_SHOOT = 32; // to shoot bacteria -> spacebar
-const KEY_UP = 48; // to move up
-const KEY_DOWN = 49;  // to move left
-const KEY_PAUSE = 80;
+const KEY_UP = 38; // to move up
+const KEY_DOWN = 40;  // to move left
+const KEY_PAUSE = 80; // TO BE CHANGED
 
+
+// constants for game container 
+const GAME_WIDTH = 800;
+const GAME_HEIGHT = 600;
 // constants for game mechanics 
 const base_score = 30;
 
@@ -29,6 +33,8 @@ const base_score = 30;
 
 // SET INITIAL STATES OF PLAYER 
 const PLAYER_STATE = {
+    x_position : 0,
+    y_position : 0,
     shoot : false, // player is not shooting
     up : false, // player is at rest
     down : false, // player is at rest
@@ -38,7 +44,9 @@ const PLAYER_STATE = {
     gameOver : false,
     wbc_state : false,
     virus_state : false,
+    player_width : 150
 }
+
 
 // VISUAL ELEMENTS USING JAVASCRIPT : FALLING RED BLOOD CELLS
 // METHOD FOR FALLING RED BLOOD CELLS (VISUAL ELEMENT)
@@ -83,21 +91,6 @@ function offKey(event) {
     } 
 }
 
-
-// METHOD TO MOVE PLAYER UP AND DOWN 
-function movePlayer() {
-    const playerIcon = document.querySelector(".player-icon");
-    // IF UP IS TRUE, PLAYER MOVES UP, IF DOWN IS TRUE, PLAYER MOVES DOWN
-    // REPOSITION PLAYER ICON IN THE GAME CONTAINER BY REPOSITIONING THE MARGIN AND ADDING PX TO IT
-    if (PLAYER_STATE.up === true) {
-        PLAYER_STATE.player_position =+ 3;
-        playerIcon.style.marginTop = PLAYER_STATE.player_position + "px";
-    } else if (PLAYER_STATE.down === true) {
-        PLAYER_STATE.player_position -= 3;
-        playerIcon.style.marginTop = PLAYER_STATE.player_position + "px";
-    }
-}
-
 // METHOD FOR SCORE
 function set_score (collision) {
     // set initial score to be 0 from variable above
@@ -119,19 +112,44 @@ function set_treatment () {
     // add event listener for when antibiotics-button class is clicked
     // if it is clicked, treatmentBoolean is true, 
 }
+
+// 
+function setElementPosition($element, x, y){
+    $element.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+function setElementSize($element, width){
+    $element.style.width = `${width}px`;
+    $element.style.height = "auto";
+}
 //  ------------------ PLAYER -----------------
+
+function createPlayer($container) {
+    PLAYER_STATE.x_position = GAME_WIDTH / 10;
+    PLAYER_STATE.y_position = GAME_HEIGHT - 250;
+    const $player = document.createElement("img");
+    $player.src = "assets/wbc-master.png"; // Corrected the file extension
+    $player.className = "player";
+    setElementPosition($player, PLAYER_STATE.x_position, PLAYER_STATE.y_position);
+    setElementSize($player, PLAYER_STATE.player_width);
+    
+    // Append the player to the game container
+    $container.appendChild($player);
+}
+
+
 // METHOD TO MOVE PLAYER UP AND DOWN 
 function updatePlayer() {
-    const playerIcon = document.querySelector(".player-icon");
     // IF UP IS TRUE, PLAYER MOVES UP, IF DOWN IS TRUE, PLAYER MOVES DOWN
     // REPOSITION PLAYER ICON IN THE GAME CONTAINER BY REPOSITIONING THE MARGIN AND ADDING PX TO IT
+    // IF PLAYER PRESSES KEY TO GO UP, THE Y POSITION
     if (PLAYER_STATE.up === true) {
-        PLAYER_STATE.player_position =+ 3;
-        playerIcon.style.marginTop = PLAYER_STATE.player_position + "px";
+        PLAYER_STATE.y_position -= 2;
     } else if (PLAYER_STATE.down === true) {
-        PLAYER_STATE.player_position -= 3;
-        playerIcon.style.marginTop = PLAYER_STATE.player_position + "px";
+        PLAYER_STATE.y_position += 2;
     }
+    const $player = document.querySelector(".player");
+    setElementPosition($player, PLAYER_STATE.x_position, PLAYER_STATE.y_position);
 }
 
 // BASIC METHOD TO BUILD WHITE BLOOD CELLS
@@ -152,6 +170,27 @@ function updateImmunity() {
 }
 
 // --------------- ENEMY -------------- 
+function createEnemy($container) {
+  
+    const $enemy = document.createElement("img");
+    $enemy.src = "assets/blue-demon.png"; // Make sure the path is correct
+    $enemy.className = "enemy";
+    
+    // Adjust the initial position of the enemy
+    const enemyX = GAME_WIDTH - 100; // Adjust the initial X-position as needed
+    const enemyY = GAME_HEIGHT - 230; // Adjust the initial Y-position as needed
+    
+    setElementPosition($enemy, enemyX, enemyY);
+    setElementSize($enemy, PLAYER_STATE.player_width); // Use the player_width or adjust it if needed
+    
+    // Append the enemy to the game container
+    $container.appendChild($enemy);
+    
+    
+    // ...
+    
+    // Call createEnemy with the game container    
+}
 // BASIC METHOD TO BUILD VIRUS CELLS
 function buildVirus() {
     // create enemy virus based by creating elemt
@@ -195,27 +234,28 @@ function gameOver() {
 }
 
 
-function update() {
-    updatePlayer();
-    updateEnemy();
-    updateImmunity();
-    updateVirus();
+// function update() {
+//     updatePlayer();
+//     updateEnemy();
+//     updateImmunity();
+//     updateVirus();
 
     // request animation frame
     // call upon gameOver(), if game over, text display of disease-start title changes to "game-over" and becomes visible
     // otherwise, text display of disease-start-title changes to "you survived the infection!"
+
+
+// updating the game 
+function updateGame() {
+    updatePlayer();
+
+    window.requestAnimationFrame(updateGame);
 }
 // -------- INITIALIZATION OF THE GAME HERE ---------
-// call upon buiidPlayer
-// call upon buildVirus
-startButton.addEventListener('click', startGame)
-    
-function startGame() {
+createPlayer(GAME_CONTAINER);
+createEnemy(GAME_CONTAINER);
 
-    falling_rbc();
-    window.addEventListener("keyUp", onKey);
-    window.addEventListener("keyDown", offKey)
-    update();
-    
-}
+window.addEventListener("keyup", onKey);
+window.addEventListener("keydown", offKey);
 
+updateGame();
