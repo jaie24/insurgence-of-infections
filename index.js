@@ -9,14 +9,8 @@
 // fix the virus moving
 // CHANGE BOUNDARY FOR VIRUS 
 // FIX VIRUS
-// DO SCORE COUNT
-// DO LEVEL AND INCREASE 
-let health = 3;
 let timer = 3;
-let score = document.querySelector('.score'); // difference between health and score is health is how much youve got shot, then score is how many times youve shoot the virus
-let InitialTime = 190; // let our initial time be 190 seconds
-let InitialScore = 0;
-let treatmentBoolean = false;
+
 let collisionCounter = 0;
 
 // constants for basic containers 
@@ -59,7 +53,7 @@ const ENEMY_STATE = {
     y_position : 0,
     enemy_width : 150,
     viruses : [],
-    virus_shots : 100,
+    virus_shots : 50,
 }
 
 const CELL_STATE = {
@@ -71,43 +65,6 @@ const VIRUS_STATE = {
     x_position : 0,
 
 }
-// METHOD FOR SCORE
-function set_score (collision) {
-    // set initial score to be 0 from variable above
-    // call function collision 
-    // if collision from above function is true, increment score by 1
-    // also call set_treatment, if treatmentBoolean is true, then increment score by 8
-}
-
-function set_health () {
-    // initial health will be 3;
-    // if score is < 30  
-    // decrease health by 1
-    // remove the health icon everytime health decreases by 1
-    // eventually if health = 0 , there will be no health icons
-    // if health = 0, game over is true, call gameOver()
-}
-
-function set_treatment () {
-    // add event listener for when antibiotics-button class is clicked
-    // if it is clicked, treatmentBoolean is true, 
-}
-
-// VISUAL ELEMENTS USING JAVASCRIPT : FALLING RED BLOOD CELLS
-// METHOD FOR FALLING RED BLOOD CELLS (VISUAL ELEMENT)
-function falling_rbc() {
-    // initialize x to be number of rbc icons to append
-    const x = 0;
-    // display for rbc icon becomes visible
-    // loop to create and append rbc icons
-        // createElement of image
-        // add class name of RBC
-        // set image source
-        // for each iteration, increase the margin of each red blood cell
-        // calculate margin, and increase margin by 30px for each red blood cell icon
-        // appendChild the red blood cell (RBC) icon to the game container
-}
-//test commit here
 
 // DECLARE EVENTS FOR WHEN KEY IS BEING PRESSED
 function onKey(event) {
@@ -210,11 +167,12 @@ function buildImmunity($container, x, y ) {
     // now append each white blood cell (wb cell) to the list created in the beginning
     $container.appendChild($wbcell);
     const wbcell_xpos = x + 150 ;
-    const wbcell = {$wbcell, x : wbcell_xpos, y};
+    const wbcell_ypos = y + 50;
+    const wbcell = {$wbcell, x : wbcell_xpos, y : wbcell_ypos};
     // REMEMBER TO ADD WHAT YOU VISUALIZE ITS DOING HERE
     PLAYER_STATE.cells.push(wbcell);
     
-    setElementPosition($wbcell, x, y);
+    setElementPosition($wbcell, x, y );
     setElementSize($wbcell, CELL_STATE.cell_width);
     // setElementSize($player, PLAYER_STATE.player_width);
     
@@ -354,7 +312,7 @@ function updateVirus($container) {
 
             // Remove the cell element from the DOM
             GAME_CONTAINER.removeChild(virus.$virus);
-        } else if (virus.x > WIDTH - 500){
+        } else if (virus.x > WIDTH -300){
             viruses.splice(i, 1);
 
             // Remove the cell element from the DOM
@@ -365,11 +323,14 @@ function updateVirus($container) {
     
         
         setElementPosition(virus.$virus, virus.x, virus.y);
-        
+    }
+    if (viruses.length === 0 && collisionCounter < ENEMY_STATE.virus_shots) {
+        PLAYER_STATE.gameOver = true;
+        document.querySelector(".player-lost").style.display = "block";
     }
 }
 
-function createViruses($container, viruses_count){
+function createViruses($container){
     for (let i = 0; i <= ENEMY_STATE.virus_shots/2; i++) {
         buildVirus($container, i*80, 20);
     }
@@ -389,7 +350,7 @@ function createViruses($container, viruses_count){
      for (let i = 0; i <= ENEMY_STATE.virus_shots/2; i++) {
         buildVirus($container, i*95, 520);
     }
- 
+
 }
 
 function limit(y){
@@ -435,14 +396,17 @@ function collisionDetection(a, b){
     if (collision){
         collisionCounter++;
         console.log(`Collision detected! Count: ${collisionCounter}`);
+        console.log(`Enemy virus length ${ENEMY_STATE.viruses.length}`)
 
     }
 
+    if (collisionCounter >= ENEMY_STATE.viruses.length){
+        PLAYER_STATE.gameOver == true;
+        document.querySelector(".player-win").style.display = "block";
+    } 
     return collision;
 }
-function gameOver() {
-    // if health is 0 , game is over, 
-}
+
 
     
 function helpButtonFlag(){
@@ -512,19 +476,20 @@ function updateGame() {
     const viruses = document.querySelectorAll(".virus");
     viruses.forEach((virus) => (virus.style.display = "block"));
 
-    if (ENEMY_STATE.viruses.length === 0) {
-        document.querySelector(".player-win").style.display = "block";
-    } else if (PLAYER_STATE.gameOver === true) {
-        document.querySelector(".player-lost").style.display = "block";
-    }
+    // if (ENEMY_STATE.viruses.length === 0) {
+    //     document.querySelector(".player-win").style.display = "block";
+    // } else if (PLAYER_STATE.gameOver === true) {
+    //     document.querySelector(".player-lost").style.display = "block";
+    // }
 }
 
 // -------- INITIALIZATION OF THE GAME HERE ---------
 
 const $container = document.querySelector(".game-container");
 createPlayer($container);
-createEnemy($container);
+createEnemy($container);   
 createViruses($container);
+
 window.addEventListener("keydown", onKey);
 window.addEventListener("keyup", offKey);
 
@@ -532,4 +497,4 @@ const helpButton = document.querySelector(".help-button");
 helpButton.addEventListener("click", helpButtonFlag);
 
 
-startGame();
+updateGame();

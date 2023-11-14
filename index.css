@@ -382,9 +382,9 @@ button {
   text-align: center;
   padding-top:30px;
   padding-bottom: 30px;
-  padding-left: 20px;
-  padding-right: 20px;
-  background: turquoise;
+  padding-left: 50px;
+  padding-right: 50px;
+  background: red;
   color: antiquewhite;
   animation: pop-in 1s;
 }
@@ -394,12 +394,12 @@ button {
   display: none;
   position: absolute;
   text-align: center;
-  background: turquoise;
+  background: greenyellow;
   padding-top:30px;
   padding-bottom: 30px;
-  padding-left: 20px;
-  padding-right: 20px;
-  color: antiquewhite;
+  padding-left: 50px;
+  padding-right: 50px;
+  color: black;
   animation: pop-in 1s;
 }
 
