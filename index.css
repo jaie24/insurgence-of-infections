@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&family=Playfair:ital,opsz,wght@0,5..1200,300;0,5..1200,400;0,5..1200,500;0,5..1200,600;0,5..1200,700;0,5..1200,800;0,5..1200,900;1,5..1200,300;1,5..1200,400;1,5..1200,500;1,5..1200,600;1,5..1200,700;1,5..1200,800;1,5..1200,900&display=swap");
 html {
   font-family: "Inconsolata", monospace;
@@ -92,7 +93,7 @@ button {
   height: 600px;
   flex: 1;
   background-color: antiquewhite;
-  background: url(assets/immune-system.jpeg);
+  background: url(assets/immune-system.jpeg); /** IMAGE OBTAINED FROM : https://medicalxpress.com/news/2020-08-insights-immune-role-severe-covid-.html AND MEETS CC0  **/
   position: relative;
 }
 /* .background-image {
@@ -422,7 +423,7 @@ button {
 }
 
 .game-instructions {
-  margin-top: 50%;
+  margin-top: 54%;
   display: block;
   position: absolute;
   text-align: center;
