@@ -354,6 +354,66 @@ button {
   display: none;
 }
 
+.game-container .player {
+  position: absolute;
+  z-index: 2;
+}
 .game-container .wbcell {
   position: absolute;
+  z-index: 2;
+}
+
+.game-container .virus {
+  margin-left: 600px;
+  position: absolute;
+  z-index: 1;
+}
+
+.game-container .enemy {
+  position: absolute;
+  z-index: 2;
+
+}
+
+.player-lost {
+  margin-top: 500px;
+  display: none;
+  position: absolute;
+  text-align: center;
+  padding-top:30px;
+  padding-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: turquoise;
+  color: antiquewhite;
+  animation: pop-in 1s;
+}
+
+.player-win {
+  margin-top: 500px;
+  display: none;
+  position: absolute;
+  text-align: center;
+  background: turquoise;
+  padding-top:30px;
+  padding-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: antiquewhite;
+  animation: pop-in 1s;
+}
+
+.countdown {
+  margin-top: 50%;
+  display: block;
+  position: absolute;
+  text-align: center;
+  background: palevioletred;
+  padding-top:150px;
+  padding-bottom: 150px;
+  padding-left: 150px;
+  padding-right: 150px;
+  color: antiquewhite;
+  animation: pop-in 1s;
+  
 }

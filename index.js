@@ -5,16 +5,21 @@
 /* UCID: 30142476 */
 
 // THINGS TO FIX : 
-// ENEMY MOVING RANDOMLY
-// CHANGE BOUNDARY FOR LOWER PART OF PLAYER
-// FIX MOVEMENT FOR CELLS AND MAKE IT RESPONSIVE
-
+// timer 
+// start game
+// fix collision detection and when win happens
+// fix the virus moving
+// CHANGE BOUNDARY FOR VIRUS 
+// FIX VIRUS
+// DO SCORE COUNT
+// DO LEVEL AND INCREASE 
 let health = 3;
+let timer = 3;
 let score = document.querySelector('.score'); // difference between health and score is health is how much youve got shot, then score is how many times youve shoot the virus
-let timer = document.querySelector('.timer'); 
 let InitialTime = 190; // let our initial time be 190 seconds
 let InitialScore = 0;
 let treatmentBoolean = false;
+let collisionCounter = 0;
 
 // constants for basic containers 
 const GAME_CONTAINER = document.querySelector('.game-container');
@@ -47,8 +52,6 @@ const PLAYER_STATE = {
     cells : [], 
     player_position : 0,
     gameOver : false,
-    wbc_state : false,
-    virus_state : false,
     player_width : 150,
     timestamp : 0 // "TIMESTAMP SO CELLS DO NOT STICK TOGETHER"
 }
@@ -56,11 +59,19 @@ const PLAYER_STATE = {
 const ENEMY_STATE = {
     x_position : 0,
     y_position : 0,
-    enemy_width : 150
+    enemy_width : 150,
+    viruses : [],
+    virus_shots : 100,
 }
 
 const CELL_STATE = {
     cell_width : 50
+}
+
+const VIRUS_STATE = {
+    virus_width : 55,
+    x_position : 0,
+
 }
 // METHOD FOR SCORE
 function set_score (collision) {
@@ -200,7 +211,7 @@ function buildImmunity($container, x, y ) {
 
     // now append each white blood cell (wb cell) to the list created in the beginning
     $container.appendChild($wbcell);
-    const wbcell_xpos = x - 130;
+    const wbcell_xpos = x + 150 ;
     const wbcell = {$wbcell, x : wbcell_xpos, y};
     // REMEMBER TO ADD WHAT YOU VISUALIZE ITS DOING HERE
     PLAYER_STATE.cells.push(wbcell);
@@ -222,20 +233,41 @@ function updateImmunity($container) {
     // set position of updated immunity bullets (following where the player moves)
     // if collision() is true, delete the wbite blood cell (container.removeChild)
     const cells = PLAYER_STATE.cells;
-    for (let i = 0; i < cells.length; i++){
+    const viruses = ENEMY_STATE.viruses;
+
+    for (let i = cells.length - 1; i >= 0; i--) {
         const cell = cells[i];
         cell.x += 3;
 
         // Check if the cell is outside the game container
-        // RECHECK (MAKE DELETION OF CELLS RESPONSIVE LATER)
-        if (cell.x > WIDTH-40) {
+        if (cell.x > WIDTH - 40) {
             // Remove the cell from the array
             cells.splice(i, 1);
-
             // Remove the cell element from the DOM
             GAME_CONTAINER.removeChild(cell.$wbcell);
+        } 
+        
+        else {
+            setElementPosition(cell.$wbcell, cell.x, cell.y);
+
+            for (let j = viruses.length - 1; j >= 0; j--) {
+                const virus = viruses[j];
+                const cell_bound = cell.$wbcell.getBoundingClientRect();
+                const virus_bound = virus.$virus.getBoundingClientRect();
+
+                if (collisionDetection(virus_bound, cell_bound)) {
+                    // Remove the cell from the array
+                    cells.splice(i, 1);
+                    // Remove the cell element from the DOM
+                    GAME_CONTAINER.removeChild(cell.$wbcell);
+
+                    // Remove the virus from the array
+                    viruses.splice(j, 1);
+                    // Remove the virus element from the DOM
+                    GAME_CONTAINER.removeChild(virus.$virus);
+                }
+            }
         }
-        setElementPosition(cell.$wbcell, cell.x, cell.y);
     }
 }
 
@@ -243,16 +275,19 @@ function updateImmunity($container) {
 
 // --------------- ENEMY -------------- 
 function createEnemy($container) {
-  
+
+    
     const $enemy = document.createElement("img");
     $enemy.src = "assets/blue-demon.png"; // Make sure the path is correct
     $enemy.className = "enemy";
     
     // Adjust the initial position of the enemy
-    const enemyX = WIDTH - 100; // Adjust the initial X-position as needed
-    const enemyY = HEIGHT - 230; // Adjust the initial Y-position as needed
+    // const enemyX = WIDTH - 100; // Adjust the initial X-position as needed
+    // const enemyY = HEIGHT - 230; // Adjust the initial Y-position as needed
     
-    setElementPosition($enemy, enemyX, enemyY);
+    ENEMY_STATE.x_position = WIDTH+100;
+    ENEMY_STATE.y_position = HEIGHT - 230;
+    setElementPosition($enemy, ENEMY_STATE.x_position, ENEMY_STATE.y_position);
     setElementSize($enemy, ENEMY_STATE.enemy_width); // Use the player_width or adjust it if needed
     
     // Append the enemy to the game container
@@ -262,54 +297,99 @@ function createEnemy($container) {
 }
 
 function updateEnemy() {
+    const rand = Math.random();
+    const speed = 7;
     if (PLAYER_STATE.up === true) {
-        ENEMY_STATE.y_position -= 2;
+        ENEMY_STATE.y_position -= rand * speed;
     }
     if (PLAYER_STATE.down === true) {
-        ENEMY_STATE.y_position += 2;
+        ENEMY_STATE.y_position += rand * speed;
     } 
    
     const $enemy = document.querySelector(".enemy");
-    setElementPosition($enemy, ENEMY_STATE.x_position, limit(ENEMY_STATE.y_position));
+    setElementPosition($enemy, ENEMY_STATE.x_position, enemy_limit(ENEMY_STATE.y_position));
 }
 
 
 // BASIC METHOD TO BUILD VIRUS CELLS
-function buildVirus() {
+function buildVirus($container, x, y) {
     // create enemy virus based by creating elemt
     // declare src and class name of the virus (already exists in css for part1 ,but will update in part 2)
     // set position for virus
     // append virus to the game container 
+    const $virus = document.createElement("img");
+    $virus.src = "assets/small-virus.png"; 
+    $virus.className = "virus";  
+
+    // now append each white blood cell (wb cell) to the list created in the beginning
+    $container.appendChild($virus);
+    
+    const virus_xpos = WIDTH;
+    const virus = {$virus, x, y};
+    // REMEMBER TO ADD WHAT YOU VISUALIZE ITS DOING HERE
+    ENEMY_STATE.viruses.push(virus);
+    
+    setElementPosition($virus,x, y);
+    setElementSize($virus, VIRUS_STATE.virus_width);
+    
 }
 
 // METHOD TO UPDATE VIRUS SHOTS COMING FROM INFECTION
-function updateVirus() {
+function updateVirus($container) {
     // create enemy virus bullets based on the state of the enemy
     // for loop and increment i 
     // for every iteration, increment i 
     // set position of updated virus bullets (following where the enemy moves)
     // if collision() is true, delete the virus (container.removechild)
+    const viruses = ENEMY_STATE.viruses;
+    for (let i = 0; i  < viruses.length; i++){
+        const virus = viruses[i];
+        virus.x -= 0.8;
+
+        // Check if the virus is outside the game container
+        // RECHECK (MAKE DELETION OF CELLS RESPONSIVE LATER)
+        if (virus.x < -600 ) {
+            // Remove the cell from the array
+            viruses.splice(i, 1);
+
+            // Remove the cell element from the DOM
+            GAME_CONTAINER.removeChild(virus.$virus);
+        } else if (virus.x > WIDTH - 500){
+            viruses.splice(i, 1);
+
+            // Remove the cell element from the DOM
+            GAME_CONTAINER.removeChild(virus.$virus);
+        } 
+        const virus_bound = virus.$virus.getBoundingClientRect();
+        const cell_bound = document.querySelector(".player").getBoundingClientRect();
+    
+        
+        setElementPosition(virus.$virus, virus.x, virus.y);
+        
+    }
 }
 
-function deleteVirus(wbc_state, virus_state) {
-    // takes on parameter of state of wbc and state of virus
-    // removes child element of virus from the game container
-}
+function createViruses($container, viruses_count){
+    for (let i = 0; i <= ENEMY_STATE.virus_shots/2; i++) {
+        buildVirus($container, i*80, 20);
+    }
+    for (let i = 0; i <= ENEMY_STATE.virus_shots/2; i++) {
+        buildVirus($container, i*90, 120);
+    }
+    for (let i = 0; i <= ENEMY_STATE.virus_shots/3; i++) {
+        buildVirus($container, i*80, 220);
+    }
 
-// METHOD TO SHOOT WHITE BLOOD CELLS AT THE VIRUS
-function checkCollision() {
-    // get bounding dimension of white blood cells (basophil/neutrophil) and virus using .getBoundingClientRect()
-    // check if bounding boxes intersect by comparing (whitebloodcellname).right/left/bottom/top 
-    // with virus.(left/right/bottom/top)
-    // if collision is detected, set collision to be 1
-    // call upon deleteVirus to delete the viru
-    // call upon score method by passing in initial score 
-    // when score method is called and everytime a collision occurs, score will increase by 1
-
-}
-
-function updateEnemy() {
-    // enemy should move up and down 50 px from top and bottom of the game container
+    for (let i = 0; i <= ENEMY_STATE.virus_shots/2; i++) {
+        buildVirus($container, i*90, 300);
+    }
+    for (let i = 0; i <= ENEMY_STATE.virus_shots/3; i++) {
+        buildVirus($container, i*80, 420);
+    }
+     for (let i = 0; i <= ENEMY_STATE.virus_shots/2; i++) {
+        buildVirus($container, i*95, 520);
+    }
+ 
 }
 
 function limit(y){
@@ -319,42 +399,115 @@ function limit(y){
     } if (y <= 0){
         PLAYER_STATE.y_position = 0;
         return PLAYER_STATE.y_position;
-    } else {
+    } if (y >= 400){
+        PLAYER_STATE.y_position = 400;
+        return PLAYER_STATE.y_position;
+    }
+    else {
         // if between game window
         return y;
     }
 
     // Ensure the player stays within the top and bottom bounds
 }
+
+function enemy_limit(y){
+    if (y >= WIDTH - ENEMY_STATE.player_width){
+        ENEMY_STATE.y_position = WIDTH - ENEMY_STATE.player_width;
+        return ENEMY_STATE.y_position;
+    } if (y <= 0){
+        ENEMY_STATE.y_position = 0;
+        return ENEMY_STATE.y_position;
+    } if (y >= 400){
+        ENEMY_STATE.y_position = 400;
+        return ENEMY_STATE.y_position;
+    }
+    else {
+        // if between game window
+        return y;
+    }
+
+    // Ensure the player stays within the top and bottom bounds
+}
+function collisionDetection(a, b){
+    const collision = !(b.top > a.bottom || b.bottom < a.top || b.right < a.left || b.left > a.right);
+
+    if (collision){
+        collisionCounter++;
+        console.log(`Collision detected! Count: ${collisionCounter}`);
+
+    }
+
+    return collision;
+}
 function gameOver() {
     // if health is 0 , game is over, 
 }
 
+function countdown(callback) {
+    const countdownDisplay = document.querySelector(".countdown");
 
-// function update() {
-//     updatePlayer();
-//     updateEnemy();
-//     updateImmunity();
-//     updateVirus();
+    // display the initial countdown value
+    countdownDisplay.innerHTML = timer;
 
-    // request animation frame
-    // call upon gameOver(), if game over, text display of disease-start title changes to "game-over" and becomes visible
-    // otherwise, text display of disease-start-title changes to "you survived the infection!"
+    function updateCountdown() {
+        if (timer > 0) {
+            timer -= 1;
+            countdownDisplay.innerHTML = timer;
 
+            // COUNTDOWN CHANGES EVERY 1 SECOND
+            setTimeout(updateCountdown, 1000);
+        } else {
+            // Hide the countdown display
+            countdownDisplay.style.display = "none";
+
+            // Execute  callback function (
+            if (callback) {
+                callback();
+            }
+        }
+    }
+
+    // first update of the countdown here 
+    setTimeout(updateCountdown, 1000);
+}
+
+function startGame() {
+    const startButton = document.querySelector(".start-button");
+
+    // on click the game starts
+    startButton.addEventListener("click", function () {
+        // Call the countdown function when the start button is clicked
+        countdown(function () {
+            // Call updateGame only when the countdown is complete
+            updateGame();
+        });
+    });
+}
 
 // updating the game 
 function updateGame() {
     updatePlayer();
     updateEnemy();
     updateImmunity($container);
+    updateVirus($container);
+
     window.requestAnimationFrame(updateGame);
+
+    if (ENEMY_STATE.viruses.length === 0) {
+        document.querySelector(".player-win").style.display = "block";
+    } else if (PLAYER_STATE.gameOver === true) {
+        document.querySelector(".player-lost").style.display = "block";
+    }
 }
+
 // -------- INITIALIZATION OF THE GAME HERE ---------
-const $container = document.querySelector(".game-container")
+const $container = document.querySelector(".game-container");
 createPlayer($container);
 createEnemy($container);
+createViruses($container);
 
 window.addEventListener("keydown", onKey);
 window.addEventListener("keyup", offKey);
 
-updateGame();
+startGame();
