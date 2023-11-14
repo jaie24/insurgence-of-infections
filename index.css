@@ -405,15 +405,32 @@ button {
 
 .countdown {
   margin-top: 50%;
-  display: block;
+  display: none;
   position: absolute;
   text-align: center;
   background: palevioletred;
-  padding-top:150px;
-  padding-bottom: 150px;
+  padding-top:80px;
+  padding-bottom: 80px;
   padding-left: 150px;
   padding-right: 150px;
   color: antiquewhite;
   animation: pop-in 1s;
-  
+  font-size:200px;
+  font-weight: bolder;
+}
+
+.game-instructions {
+  margin-top: 50%;
+  display: block;
+  position: absolute;
+  text-align: center;
+  background: black;
+  padding-top:50px;
+  padding-bottom: 50px;
+  padding-left: 80px;
+  padding-right: 80px;
+  color: white;
+  animation: pop-in 1s;
+  font-size:20px;
+  font-weight: bolder;
 }

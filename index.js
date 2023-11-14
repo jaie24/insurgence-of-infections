@@ -5,8 +5,6 @@
 /* UCID: 30142476 */
 
 // THINGS TO FIX : 
-// timer 
-// start game
 // fix collision detection and when win happens
 // fix the virus moving
 // CHANGE BOUNDARY FOR VIRUS 
@@ -312,7 +310,7 @@ function updateEnemy() {
 
 
 // BASIC METHOD TO BUILD VIRUS CELLS
-function buildVirus($container, x, y) {
+function buildVirus($container, x, y, isVisible = false) {
     // create enemy virus based by creating elemt
     // declare src and class name of the virus (already exists in css for part1 ,but will update in part 2)
     // set position for virus
@@ -320,6 +318,8 @@ function buildVirus($container, x, y) {
     const $virus = document.createElement("img");
     $virus.src = "assets/small-virus.png"; 
     $virus.className = "virus";  
+
+    $virus.style.display = isVisible ? "block" : "none";
 
     // now append each white blood cell (wb cell) to the list created in the beginning
     $container.appendChild($virus);
@@ -444,6 +444,18 @@ function gameOver() {
     // if health is 0 , game is over, 
 }
 
+    
+function helpButtonFlag(){
+    // on lick, the game instruction changes accordingly
+    const instructions = document.querySelector(".game-instructions");
+    if (instructions.style.display === "none") {
+        instructions.style.display = "block";
+    } else {
+        instructions.style.display = "none";
+    }
+}
+
+
 function countdown(callback) {
     const countdownDisplay = document.querySelector(".countdown");
 
@@ -477,6 +489,9 @@ function startGame() {
 
     // on click the game starts
     startButton.addEventListener("click", function () {
+        document.querySelector(".game-instructions").style.display = "none";
+        document.querySelector(".countdown").style.display = "block";
+
         // Call the countdown function when the start button is clicked
         countdown(function () {
             // Call updateGame only when the countdown is complete
@@ -494,6 +509,9 @@ function updateGame() {
 
     window.requestAnimationFrame(updateGame);
 
+    const viruses = document.querySelectorAll(".virus");
+    viruses.forEach((virus) => (virus.style.display = "block"));
+
     if (ENEMY_STATE.viruses.length === 0) {
         document.querySelector(".player-win").style.display = "block";
     } else if (PLAYER_STATE.gameOver === true) {
@@ -502,12 +520,16 @@ function updateGame() {
 }
 
 // -------- INITIALIZATION OF THE GAME HERE ---------
+
 const $container = document.querySelector(".game-container");
 createPlayer($container);
 createEnemy($container);
 createViruses($container);
-
 window.addEventListener("keydown", onKey);
 window.addEventListener("keyup", offKey);
+
+const helpButton = document.querySelector(".help-button");
+helpButton.addEventListener("click", helpButtonFlag);
+
 
 startGame();
