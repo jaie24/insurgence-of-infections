@@ -390,6 +390,8 @@ button {
 }
 
 .player-win {
+  position: absolute;
+  z-index: 2;
   margin-top: 500px;
   display: none;
   position: absolute;

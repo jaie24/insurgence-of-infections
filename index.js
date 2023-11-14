@@ -10,9 +10,9 @@
 // CHANGE BOUNDARY FOR VIRUS 
 // FIX VIRUS
 let timer = 3;
-
+let currentLevel = 1;
 let collisionCounter = 0;
-
+let temp = 200;
 // constants for basic containers 
 const GAME_CONTAINER = document.querySelector('.game-container');
 const startButton = document.getElementsByClassName('.start-button-container')
@@ -312,7 +312,7 @@ function updateVirus($container) {
 
             // Remove the cell element from the DOM
             GAME_CONTAINER.removeChild(virus.$virus);
-        } else if (virus.x > WIDTH -300){
+        } else if (virus.x > WIDTH - temp){
             viruses.splice(i, 1);
 
             // Remove the cell element from the DOM
@@ -324,7 +324,7 @@ function updateVirus($container) {
         
         setElementPosition(virus.$virus, virus.x, virus.y);
     }
-    if (viruses.length === 0 && collisionCounter < ENEMY_STATE.virus_shots) {
+    if (viruses.length === 0 && collisionCounter < 20) {
         PLAYER_STATE.gameOver = true;
         document.querySelector(".player-lost").style.display = "block";
     }
@@ -335,7 +335,7 @@ function createViruses($container){
         buildVirus($container, i*80, 20);
     }
     for (let i = 0; i <= ENEMY_STATE.virus_shots/2; i++) {
-        buildVirus($container, i*90, 120);
+        buildVirus($container, i*(90*currentLevel), 120);
     }
     for (let i = 0; i <= ENEMY_STATE.virus_shots/3; i++) {
         buildVirus($container, i*80, 220);
@@ -345,11 +345,12 @@ function createViruses($container){
         buildVirus($container, i*90, 300);
     }
     for (let i = 0; i <= ENEMY_STATE.virus_shots/3; i++) {
-        buildVirus($container, i*80, 420);
+        buildVirus($container, i*(80*currentLevel), 420);
     }
      for (let i = 0; i <= ENEMY_STATE.virus_shots/2; i++) {
         buildVirus($container, i*95, 520);
     }
+
 
 }
 
@@ -400,7 +401,7 @@ function collisionDetection(a, b){
 
     }
 
-    if (collisionCounter >= ENEMY_STATE.viruses.length){
+    if (collisionCounter >= 20){
         PLAYER_STATE.gameOver == true;
         document.querySelector(".player-win").style.display = "block";
     } 
@@ -496,5 +497,20 @@ window.addEventListener("keyup", offKey);
 const helpButton = document.querySelector(".help-button");
 helpButton.addEventListener("click", helpButtonFlag);
 
+// const nextLevelButton = document.querySelector(".next-level-button");
+// nextLevelButton.addEventListener("click", function() {
+//     // Increase the current level
+//     currentLevel++;
 
-updateGame();
+//     // Clear existing viruses
+//     ENEMY_STATE.viruses = [];
+//     const existingViruses = document.querySelectorAll(".virus");
+//     existingViruses.forEach(virus => GAME_CONTAINER.removeChild(virus));
+
+//     // Create viruses for the new level
+//     createViruses($container);
+// });
+
+
+
+startGame();
