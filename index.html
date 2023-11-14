@@ -22,56 +22,64 @@
   <body>
     <div class="main-container">
       <!-- CONTAINER FOR HEADER-->
-    <div class="header-container">
-      <div class="title-container">
-        <h1 class="game-title">Insurgence of Infections</h1>
-      </div>
-    </div>
-    <!-- <canvas id="canvas"></canvas> -->
-    <!-- CONTAINER FOR THE GAME BACKGROUND-->
-
-    <div class="background-container">
-      <div class="left-sidebar-container">
-        <div class="menu-text-container">
-          <p class="menu-text">MENU</p>
-        </div>
-        <div class="buttons-container">
-          <section class="buttons">
-            <div class="start-button-container">
-              <button class="start-button">START</button>
-            </div>
-            <div class="help-button-container">
-              <button class="help-button">HELP</button>
-            </div>
-          </section>
+      <div class="header-container">
+        <div class="title-container">
+          <h1 class="game-title">Insurgence of Infections</h1>
         </div>
       </div>
-      <div class="game-container">
-        <div id="game-background"class="game-wrapper">
-          <div class="game-instructions">
-            <h1>HOW TO PLAY?</h1>
-            <h2>TASK : Uh-oh! Your immune system has just been attacked by a virus! Check out the left 
-              side of the screen for all the details on that intruder.
-               Ready to fight that infection? Hit the start button, shoot as many virus as you can and let the battle begin!</h2>
-            <p>HINT : Your immune system loses if you get attacked by more virus than you hit!</p>
-            <p>To Move Up : Arrow Up</p>
-            <p>To Move Down : Arrow Down</p>
-            <p>To Shoot : Spacebar</p>
-            <p>*reclick help button to exit this window*</p>
-          </div>
-          <div class = "countdown">3
-          </div>
-          <div class = "player-win">
-            <h2>YOU SURVIVED THE INFECTION!</h2>
-            <button class = "restart-button" onclick="window.location.reload()">RESTART</button>
-            <!-- <button class = "next-level-button" onclick="window.location.reload()">NEXT LEVEL</button> -->
+      <!-- <canvas id="canvas"></canvas> -->
+      <!-- CONTAINER FOR THE GAME BACKGROUND-->
 
+      <div class="background-container">
+        <div class="left-sidebar-container">
+          <div class="menu-text-container">
+            <p class="menu-text">MENU</p>
           </div>
-          <div class = "player-lost">
-            <h2>YOU LOST :( !</h2>
-            <button class = "restart-button" onclick="window.location.reload()">RESTART</button>
+          <div class="buttons-container">
+            <section class="buttons">
+              <div class="start-button-container">
+                <button class="start-button">START</button>
+              </div>
+              <div class="help-button-container">
+                <button class="help-button">HELP</button>
+              </div>
+            </section>
           </div>
-          <!-- <img
+        </div>
+        <div class="game-container">
+          <div id="game-background" class="game-wrapper">
+            <div class="game-instructions">
+              <h1>HOW TO PLAY?</h1>
+              <h2>
+                TASK : Uh-oh! Your immune system has just been attacked by a
+                virus! Check out the left side of the screen for all the details
+                on that intruder. Ready to fight that infection? Hit the start
+                button, shoot as many virus as you can and let the battle begin!
+              </h2>
+              <p>
+                HINT : Your immune system loses if you get attacked by more
+                virus than you hit!
+              </p>
+              <p>To Move Up : Arrow Up</p>
+              <p>To Move Down : Arrow Down</p>
+              <p>To Shoot : Spacebar</p>
+              <p>*reclick help button to exit this window*</p>
+            </div>
+            <div class="countdown">3</div>
+            <div class="player-win">
+              <h2>YOU SURVIVED THE INFECTION!</h2>
+              <button class="restart-button" onclick="window.location.reload()">
+                RESTART
+              </button>
+              <!-- <button class = "next-level-button" onclick="window.location.reload()">NEXT LEVEL</button> -->
+            </div>
+            <div class="player-lost">
+              <h2>YOU LOST :( !</h2>
+              <button class="restart-button" onclick="window.location.reload()">
+                RESTART
+              </button>
+            </div>
+            <!-- <img
             class="background-image"
             src="assets/immune-system.jpeg"
             alt="background-image"
@@ -94,11 +102,11 @@
                 alt="image-of-heart"
               />
             </div> -->
-<!--             
+            <!--             
             <div class="player-score-container">
               <p class="score"><strong>Score: 0 </strong></p>
             </div> -->
-          <!-- </div>
+            <!-- </div>
           <div class="disease-start-title"></div>
           <div class="player-container">
             <img class="player-icon" src="assets/wbc-master.png" alt="player-image">
@@ -146,17 +154,22 @@
               </div>
             </div>
           </div> -->
+          </div>
+        </div>
+        <div class="right-sidebar-container">
+          <div class="disease-title-container">
+            INFORMATION ABOUT THIS DISEASE:
+          </div>
+          <div class="disease-information-container">
+            <p class="disease-information-text">
+              Malaria is a disease caused by a parasite. Mosquitoes spread the
+              parasite to people when they bite them. Symptoms may include high
+              fevers and shaking chills, flu-like illness.
+            </p>
+          </div>
         </div>
       </div>
-      <div class="right-sidebar-container">
-        <div class="disease-title-container">INFORMATION ABOUT THIS DISEASE:</div>
-        <div class="disease-information-container">
-          <p class="disease-information-text">Malaria is a disease caused by a parasite. Mosquitoes spread the parasite to people when they bite them. Symptoms may include high fevers and shaking chills, flu-like illness.</p>
-        </div>
-      </div>
+      <script src="index.js"></script>
     </div>
-    <script src="index.js"></script>
   </body>
 </html>
-</div>
-    
