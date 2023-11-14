@@ -1,18 +1,15 @@
-/* Course: SENG 513 */
-/* Date: OCT 23, 2023 */
-/* Assignment 2 */
-/* Name: Jiayi Teh */
-/* UCID: 30142476 */
+// <!-- Course: SENG 513 -->
+// <!-- Date: NOV 10, 2023 -->
+// <!-- Assignment 3 -->
+// <!-- Name: Jiayi Teh -->
+// <!-- UCID: 30142476 -->
 
-// THINGS TO FIX : 
-// fix collision detection and when win happens
-// fix the virus moving
-// CHANGE BOUNDARY FOR VIRUS 
-// FIX VIRUS
+
 let timer = 3;
 let currentLevel = 1;
 let collisionCounter = 0;
 let temp = 300;
+
 // constants for basic containers 
 const GAME_CONTAINER = document.querySelector('.game-container');
 const startButton = document.getElementsByClassName('.start-button-container')
@@ -21,15 +18,12 @@ const startButton = document.getElementsByClassName('.start-button-container')
 const KEY_SHOOT = 32; // to shoot bacteria -> spacebar
 const KEY_UP = 38; // to move up
 const KEY_DOWN = 40;  // to move left
-const KEY_PAUSE = 80; // TO BE CHANGED
 
 
 // constants for game container 
 const WIDTH = 800;
 const HEIGHT = 600;
 // constants for game mechanics 
-const base_score = 30;
-
 
 // ---------- GENERAL FUNCTIONS ---------
 
@@ -100,12 +94,13 @@ function setElementPosition($element, x, y){
     $element.style.transform = `translate(${x}px, ${y}px)`;
 }
 
+// SETTING UP BASIC FUNCTIONS FOR POSITION AND SIZE OF THE ELEMENTS
 function setElementSize($element, width){
     $element.style.width = `${width}px`;
     $element.style.height = "auto";
 }
-//  ------------------ PLAYER -----------------
 
+//  ------------------ PLAYER -----------------
 function createPlayer($container) {
     PLAYER_STATE.x_position = WIDTH / 10;
     PLAYER_STATE.y_position = HEIGHT - 250;
@@ -123,8 +118,7 @@ function createPlayer($container) {
 // METHOD TO MOVE PLAYER UP AND DOWN 
 function updatePlayer() {
     // IF UP IS TRUE, PLAYER MOVES UP, IF DOWN IS TRUE, PLAYER MOVES DOWN
-    // REPOSITION PLAYER ICON IN THE GAME CONTAINER BY REPOSITIONING THE MARGIN AND ADDING PX TO IT
-    // IF PLAYER PRESSES KEY TO GO UP, THE Y POSITION
+    // IF PLAYER PRESSES KEY TO GO UP, THE Y POSITION DECREASES, OTHERWISE IT INCREASES
     // CHECK MOVEMENT OF PLAYER
     if (PLAYER_STATE.up === true) {
         PLAYER_STATE.y_position -= 2;
@@ -138,11 +132,11 @@ function updatePlayer() {
          PLAYER_STATE.timestamp = 30;
     }
 
+    // ADDING PLAYER TO THE SCREEN
     const $player = document.querySelector(".player");
     setElementPosition($player, PLAYER_STATE.x_position, limit(PLAYER_STATE.y_position));
     
     // CHECK THE "TIMESTAMP COUNTER"
-    // NOTE THAT IS WAS QUITE A CHALLENGE, OUTLINE IT IN THE REFLECTION LATER AND CITE SOURCES
     if (PLAYER_STATE.timestamp > 0){
         PLAYER_STATE.timestamp -= 1;
     }
@@ -155,8 +149,8 @@ function updatePlayer() {
  * @param y : y-coordinate of white blood cell
  */
 function buildImmunity($container, x, y ) {
-    // create white blood cells based by creating elemt
-    // declare src and class name of the white blood cells (already exists in css for part1 ,but will update in part 2)
+    // create white blood cells based by creating element
+    // declare src and class name of the white blood cells 
     // append white blood cells to the game container 
     // set position for white blood cells
     // code implementation will be similar to createplayer method
@@ -248,10 +242,10 @@ function createEnemy($container) {
     
     // Append the enemy to the game container
     $container.appendChild($enemy);
-    // ...
     // Call createEnemy with the game container    
 }
 
+// METHOD FOR WHEN ENEMY MOVES UP AND DOWN ALONG WITH THE PLAYER
 function updateEnemy() {
     const rand = Math.random();
     const speed = 7;
@@ -330,6 +324,8 @@ function updateVirus($container) {
     }
 }
 
+// METHOD TO CREATE MULTIPLE VIRUSES TO THE SCREEN 
+// AT EVERY LOOP INCREASE THE WIDTH AND HEIGHT OF THE VIRUS ON THE SCREEN
 function createViruses($container){
     for (let i = 0; i <= ENEMY_STATE.virus_shots/2; i++) {
         buildVirus($container, i*80, 20);
@@ -354,6 +350,7 @@ function createViruses($container){
 
 }
 
+// THIS METHOD WILL BE THE BOUNDARY FOR PLAYER MOVEMENT SUCH THAT IT DOES NOT MOVE BEYOND GAME CONTAINER
 function limit(y){
     if (y >= WIDTH - PLAYER_STATE.player_width){
         PLAYER_STATE.y_position = WIDTH - PLAYER_STATE.player_width;
@@ -373,6 +370,7 @@ function limit(y){
     // Ensure the player stays within the top and bottom bounds
 }
 
+// THIS METHOD WILL BE THE BOUNDARY FOR ENEMY MOVEMENT SUCH THAT IT DOES NOT MOVE BEYOND GAME CONTAINER
 function enemy_limit(y){
     if (y >= WIDTH - ENEMY_STATE.player_width){
         ENEMY_STATE.y_position = WIDTH - ENEMY_STATE.player_width;
@@ -391,9 +389,14 @@ function enemy_limit(y){
 
     // Ensure the player stays within the top and bottom bounds
 }
+
+// FUNCTION THAT DETECTS WHEN A COLLISION OCCURS
 function collisionDetection(a, b){
+    // CHECK COLLISION AT EVERY ANGLE
     const collision = !(b.top > a.bottom || b.bottom < a.top || b.right < a.left || b.left > a.right);
 
+    // IF COLLISION IS TRUE INCREMENT THE COLLISION COUNTER
+    // COLLISION COUNTER IS TO KEEP TRACK OF WHEN PLAYER WINS OR NOT
     if (collision){
         collisionCounter++;
         console.log(`Collision detected! Count: ${collisionCounter}`);
@@ -401,6 +404,8 @@ function collisionDetection(a, b){
 
     }
 
+    // IF THE COLLISIONCOUNTR EXCEEDS 20, PLAYER WINS THE GAME AND GAME IS OVER
+    // OTHERWISE PLAYER LOSES AND IT IS HANDLED ABOVE IN UPDATEVIRUS METHOD
     if (collisionCounter >= 20){
         PLAYER_STATE.gameOver == true;
         document.querySelector(".player-win").style.display = "block";
@@ -409,10 +414,11 @@ function collisionDetection(a, b){
 }
 
 
-    
+// FUNCTION FOR WHEN THE HELP BUTTON IS PRESSED, IT GIVES INFORMATION TO THE PLAYER ON HOW TO PLAY THE GAME
 function helpButtonFlag(){
     // on lick, the game instruction changes accordingly
     const instructions = document.querySelector(".game-instructions");
+    // TOGGLING THE INSTRUCTIONS HERE
     if (instructions.style.display === "none") {
         instructions.style.display = "block";
     } else {
@@ -420,13 +426,14 @@ function helpButtonFlag(){
     }
 }
 
-
+// FUNCTION FOR COUNTDOWN WHEN GAME BEGINS
 function countdown(callback) {
     const countdownDisplay = document.querySelector(".countdown");
 
     // display the initial countdown value
     countdownDisplay.innerHTML = timer;
 
+    // THIS FUNCTION CHANGES CONTENT OF COUNTDOWN BEING DISPLAYED ON THE SCREEN
     function updateCountdown() {
         if (timer > 0) {
             timer -= 1;
@@ -449,7 +456,9 @@ function countdown(callback) {
     setTimeout(updateCountdown, 1000);
 }
 
+// FUNCTION TO START THE GAME
 function startGame() {
+    // DECLARE START BUTTON
     const startButton = document.querySelector(".start-button");
 
     // on click the game starts
