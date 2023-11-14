@@ -12,7 +12,7 @@
 let timer = 3;
 let currentLevel = 1;
 let collisionCounter = 0;
-let temp = 200;
+let temp = 300;
 // constants for basic containers 
 const GAME_CONTAINER = document.querySelector('.game-container');
 const startButton = document.getElementsByClassName('.start-button-container')
